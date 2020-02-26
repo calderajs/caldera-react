@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message SimpleDOMEvent {
+  uint64 target = 1;
+  string name = 2;
+  bool cancelable = 3;
+  bool bubbles = 4;
+  repeated uint64 composedPath = 5;
+}
+
+message DOMInputEvent {
+  uint64 target = 1;
+  string name = 2;
+  bool cancelable = 3;
+  bool bubbles = 4;
+  repeated uint64 composedPath = 5;
+  string value = 6;
+  bool checked = 7;
+}
+
+message PingEvent { uint64 nonce = 1; }

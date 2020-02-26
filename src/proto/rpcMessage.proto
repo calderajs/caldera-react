@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+message SetSessionTokenMessage { string token = 1; }
+
+message CreateElementMessage {
+  uint64 nodeId = 1;
+  string type = 2;
+}
+
+message CreateTextMessage {
+  uint64 textId = 1;
+  string text = 2;
+}
+
+message UpdateTextMessage {
+  uint64 textId = 1;
+  string text = 2;
+}
+
+message AppendChildMessage {
+  uint64 nodeId = 1;
+  uint64 childId = 2;
+}
+
+message RemoveChildMessage {
+  uint64 nodeId = 1;
+  uint64 childId = 2;
+}
+
+message InsertBeforeMessage {
+  uint64 nodeId = 1;
+  uint64 childId = 2;
+  uint64 beforeChildId = 3;
+}
+
+message SetInitialAttrsMessage {
+  uint64 nodeId = 1;
+  map<string, string> attrs = 2;
+}
+
+message UpdateAttrsMessage {
+  uint64 nodeId = 1;
+  map<string, string> updateAttrs = 2;
+  map<string, bool> removeAttrs = 3;
+}
+
+message DispatchEventMessage {
+  uint64 target = 1;
+  string name = 2;
+  bool performDefault = 3;
+}
+
+message ScrollIntoViewOptions {
+  string block = 1;
+  string inline = 2;
+}
+
+message ScrollIntoViewMessage {
+  uint64 target = 1;
+  ScrollIntoViewOptions options = 2;
+}
+
+message AppendOrUpdateHeadMessage {
+  uint64 elementId = 1;
+  string type = 3;
+  map<string, string> attrs = 4;
+}
+
+message DeleteHeadMessage { uint64 elementId = 1; }
+
+message PongMessage { uint64 nonce = 1; }
