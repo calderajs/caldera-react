@@ -28,7 +28,7 @@ export type Dispatch = (
   skipQueue?: boolean
 ) => void;
 
-export const initCalderaServer = (app: React.ReactNode) => {
+export const renderCalderaApp = (app: React.ReactNode) => {
   const savedStates = new Map<SessionID, Buffer>();
 
   const server = http.createServer((req, res) =>
