@@ -1,4 +1,5 @@
 🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋🌋
+
 Caldera is a server-side execution environment for React. Think of it as the Node.js analog to Phoenix LiveView — **all** of the application logic (including rendering) runs on the server, and DOM updates are sent to the client in real-time.
 
 This allows developers to rapidly build interactive and multiplayer applications without developing boilerplate around RPC layers (REST/GraphQL/gRPC) and messaging primitives (WebSockets/subscriptions/etc).
