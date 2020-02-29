@@ -57,9 +57,7 @@ A simple example (chat room) to get started:
     
     renderCalderaApp(<App />);
 
-Here are a few other examples demonstrating features like shared state, database usage, and session persistence.
-
-[Examples](https://www.notion.so/Examples-c70610ff9e4e4193b39ffb51ce250579)
+A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
 ## What works <a name="what-works"></a>
 
