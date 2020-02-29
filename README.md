@@ -24,41 +24,41 @@ There are some significant advantages of using React for the rendering engine co
 ## Examples
 
 A simple example (chat room) to get started:
+```JSX
+const messagesResource = makeSharedResource([]); // default impl of shared state
 
-    const messagesResource = makeSharedResource([]); // default impl of shared state
-    
-    const App = () => {
-      // shared resources are shared with all clients
-      const [messages, setMessages] = useSharedState(messagesResource);
-      // local state, preserved across client restarts
-      const [draftMsg, setDraftMsg] = useState("");
-    
-      return (
-        <>
-          <h1>Chat Room!</h1>
-          {messages.map((message, i) => (
-            <div key={i}>{message}</div>
-          ))}
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              setMessages(messages => [...messages, draftMsg]);
-              setDraftMsg("");
-            }}
-          >
-            <input
-              type="text"
-              value={draftMessage}
-              onChange={e => setDraftMsg(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form>
-        </>
-      );
-    };
-    
-    renderCalderaApp(<App />);
+const App = () => {
+  // shared resources are shared with all clients
+  const [messages, setMessages] = useSharedState(messagesResource);
+  // local state, preserved across client restarts
+  const [draftMsg, setDraftMsg] = useState("");
 
+  return (
+    <>
+      <h1>Chat Room!</h1>
+      {messages.map((message, i) => (
+        <div key={i}>{message}</div>
+      ))}
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          setMessages(messages => [...messages, draftMsg]);
+          setDraftMsg("");
+        }}
+      >
+        <input
+          type="text"
+          value={draftMessage}
+          onChange={e => setDraftMsg(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </>
+  );
+};
+
+renderCalderaApp(<App />);
+```
 A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
 ## What works <a name="what-works"></a>
