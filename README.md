@@ -59,13 +59,15 @@ const App = () => {
 
 renderCalderaApp(<App />);
 ```
+Then, run the app using `node -r caldera app.js`.
+
 A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
 ## What works <a name="what-works"></a>
 
 - Basic form inputs (text fields/areas, checkboxes, selects, radio buttons)
 - Basic event listeners (onclick/onchange/onsubmit/onfocus/onblur)
-- CSS and other head tags (via <Head />)
+- CSS and other head tags (via `<Head />`)
 - Basic input reconciliation (currently implemented via debounce)
 - Shared state and reducer hooks
 - State serialization and restore + state "forking" whenever a user opens a new client
