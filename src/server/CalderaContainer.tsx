@@ -15,12 +15,26 @@ import {
 import { Dispatcher } from "./dispatcher";
 import { CalderaElement, CalderaInputElement } from "./instances";
 import { walkFiberRoot } from "./walkFiberRoot";
+import { HooksInjector } from "./HooksInjector";
 
-export const CalderaContext = React.createContext({
-  dispatch: (msg: CalderaRPCMessage) => {},
-  requestFlush: () => {},
-  savedState: undefined as any[] | undefined,
-  nextHeadElementId: 0
+export const CalderaContext = React.createContext<{
+  dispatch: (msg: CalderaRPCMessage) => void;
+  requestFlush: () => void;
+  savedState?: any[];
+  nextHeadElementId: number;
+  getContainer: () => ReactReconciler.FiberRoot;
+}>({
+  dispatch: () => {
+    throw new Error("not implemented");
+  },
+  requestFlush: () => {
+    throw new Error("not implemented");
+  },
+  savedState: [],
+  nextHeadElementId: 0,
+  getContainer: () => {
+    throw new Error("not implemented");
+  }
 });
 
 export default class CalderaContainer {
@@ -42,7 +56,7 @@ export default class CalderaContainer {
     reconciler: ReactReconciler.Reconciler<unknown, unknown, unknown, unknown>,
     dispatcher: Dispatcher,
     savedState: any[] | undefined,
-    rootEl: React.ReactNode
+    rootEl: React.ReactElement
   ) {
     this.sessionId = sessionId;
     this.elementRefs = elementRefs;
@@ -59,12 +73,13 @@ export default class CalderaContainer {
         this.dispatcher.dispatch(this.sessionId, msg),
       requestFlush: () => dispatcher.requestFlush(this.sessionId),
       savedState,
-      nextHeadElementId: 0
+      nextHeadElementId: 0,
+      getContainer: () => this.container
     };
 
     reconciler.updateContainer(
       <CalderaContext.Provider value={initialContext}>
-        {rootEl}
+        <HooksInjector>{rootEl}</HooksInjector>
       </CalderaContext.Provider>,
       this.container,
       null,

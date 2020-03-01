@@ -372,7 +372,7 @@ export const createRenderer = (dispatcher: Dispatcher) => {
 
   return {
     render: (
-      element: React.ReactNode,
+      element: React.ReactElement,
       sessionId: SessionID,
       savedState?: Buffer
     ) => {
