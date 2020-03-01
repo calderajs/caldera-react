@@ -13,7 +13,10 @@ export const HooksInjector = ({
   if (!currentReactDispatcher.__CALDERA_PATCHED_HOOK__) {
     const origUseState = currentReactDispatcher.useState;
     const newUseState = (initialState: any) => {
-      const { savedState } = currentReactDispatcher.readContext(CalderaContext);
+      const { savedState } = currentReactDispatcher.readContext(
+        CalderaContext,
+        false // avoid polluting fiber dependencies
+      );
       return origUseState(
         savedState !== undefined ? savedState.shift() : initialState
       );
@@ -22,7 +25,10 @@ export const HooksInjector = ({
 
     const origUseReducer = currentReactDispatcher.useReducer;
     const newUseReducer = (reducer: any, initialArg: any, init?: any) => {
-      const { savedState } = currentReactDispatcher.readContext(CalderaContext);
+      const { savedState } = currentReactDispatcher.readContext(
+        CalderaContext,
+        false // avoid polluting fiber dependencies
+      );
       return savedState !== undefined
         ? origUseReducer(reducer, savedState.shift())
         : origUseReducer(reducer, initialArg, init);
