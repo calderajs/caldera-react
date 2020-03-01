@@ -22,7 +22,6 @@ export const CalderaContext = React.createContext<{
   requestFlush: () => void;
   savedState?: any[];
   nextHeadElementId: number;
-  getContainer: () => ReactReconciler.FiberRoot;
 }>({
   dispatch: () => {
     throw new Error("not implemented");
@@ -31,10 +30,7 @@ export const CalderaContext = React.createContext<{
     throw new Error("not implemented");
   },
   savedState: [],
-  nextHeadElementId: 0,
-  getContainer: () => {
-    throw new Error("not implemented");
-  }
+  nextHeadElementId: 0
 });
 
 export default class CalderaContainer {
@@ -73,8 +69,7 @@ export default class CalderaContainer {
         this.dispatcher.dispatch(this.sessionId, msg),
       requestFlush: () => dispatcher.requestFlush(this.sessionId),
       savedState,
-      nextHeadElementId: 0,
-      getContainer: () => this.container
+      nextHeadElementId: 0
     };
 
     reconciler.updateContainer(
