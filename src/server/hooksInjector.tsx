@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { CalderaContext } from "./CalderaContainer";
 
 export const HooksInjector = ({
@@ -14,7 +14,7 @@ export const HooksInjector = ({
     const origUseState = currentReactDispatcher.useState;
     const newUseState = (initialState: any) => {
       /* eslint-disable react-hooks/rules-of-hooks */
-      const { savedState } = useContext(CalderaContext);
+      const { savedState } = currentReactDispatcher.readContext(CalderaContext);
       return origUseState(
         savedState !== undefined ? savedState.shift() : initialState
       );
@@ -24,13 +24,14 @@ export const HooksInjector = ({
     const origUseReducer = currentReactDispatcher.useReducer;
     const newUseReducer = (reducer: any, initialArg: any, init?: any) => {
       /* eslint-disable react-hooks/rules-of-hooks */
-      const { savedState } = useContext(CalderaContext);
+      const { savedState } = currentReactDispatcher.readContext(CalderaContext);
       return savedState !== undefined
         ? origUseReducer(reducer, savedState.shift())
         : origUseReducer(reducer, initialArg, init);
     };
     currentReactDispatcher.useReducer = newUseReducer;
 
+    console.log("Injected hooks into React dispatcher");
     currentReactDispatcher.__CALDERA_PATCHED_HOOK__ = true;
   }
 
