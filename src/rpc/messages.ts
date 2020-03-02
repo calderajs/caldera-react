@@ -6,7 +6,7 @@ export type NodeID = Nominal<number, "NodeID">;
 export const DOCUMENT_ROOT_ID = 0 as NodeID;
 export type HeadElementID = Nominal<number, "HeadElementID">;
 
-export enum MessageType {
+export const enum MessageType {
   SET_SESSION_TOKEN,
   CREATE_ELEMENT,
   CREATE_TEXT,
@@ -131,7 +131,7 @@ export interface CalderaRPCCallback {
   __calderaRPCCallbackBrand: true;
 }
 
-export enum EventType {
+export const enum EventType {
   DOM_EVENT,
   DOM_INPUT_EVENT,
   PING
