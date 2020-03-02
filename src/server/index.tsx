@@ -1,4 +1,3 @@
-import "./hooksInjector";
 import cookie from "cookie";
 import http, { IncomingMessage } from "http";
 import nanoid from "nanoid";
@@ -28,7 +27,7 @@ export type Dispatch = (
   skipQueue?: boolean
 ) => void;
 
-export const renderCalderaApp = (app: React.ReactNode) => {
+export const renderCalderaApp = (app: React.ReactElement) => {
   const savedStates = new Map<SessionID, Buffer>();
 
   const server = http.createServer((req, res) =>
