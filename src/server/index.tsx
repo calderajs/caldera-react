@@ -27,7 +27,10 @@ export type Dispatch = (
   skipQueue?: boolean
 ) => void;
 
-export const renderCalderaApp = (app: React.ReactElement) => {
+export const renderCalderaApp = (
+  app: React.ReactElement,
+  options: { port?: number; hostname?: string } = {}
+) => {
   const savedStates = new Map<SessionID, Buffer>();
 
   const server = http.createServer((req, res) =>
@@ -127,5 +130,8 @@ export const renderCalderaApp = (app: React.ReactElement) => {
     });
   });
 
-  server.listen(8080);
+  const { port = 8080, hostname } = options;
+  server.listen(port, hostname, () => {
+    console.log(`🌋  Server started on port ${port}`);
+  });
 };
