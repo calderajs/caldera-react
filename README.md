@@ -10,12 +10,16 @@ Because it's built on top of the React reconciler, it's compatible with (current
 
 Run `npm install caldera` to install Caldera
 
-## API
+## API/Documentation
 
-- `<Head />` (title/other singletons are special cased)
-- renderCalderaApp (put the import at top of file)
-- useSharedState/useSharedReducer
-- makeSharedResource (default shared state and shared reducer implementation)
+**[Work in progress]**
+
+The `caldera` package provides the following top-level exports:
+
+- `Head`: A React component that renders its children into the page's `<head />`
+- `renderCalderaApp`: A function that takes in a React element, and runs the Caldera server on port 8080
+- `makeSharedResource`: Creates a shared resource suitable for use in `useSharedState` and `useSharedReducer`
+- `useSharedState`/`useSharedReducer`: Shared equivalents to the `useState` and `useReducer` hooks that are initialized with the current value of the passed in resource, and trigger rerenders in all other call sites upon updating
 
 ## Comparison with Phoenix LiveView
 
@@ -27,7 +31,7 @@ A simple example (chat room) to get started:
 
 ```JSX
 import React from "react";
-import { renderCalderaApp, makeSharedResource } from "caldera";
+import { renderCalderaApp, makeSharedResource, useSharedState } from "caldera";
 
 const messagesResource = makeSharedResource([]); // default impl of shared state
 
