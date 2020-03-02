@@ -24,7 +24,11 @@ There are some significant advantages of using React for the rendering engine co
 ## Examples
 
 A simple example (chat room) to get started:
+
 ```JSX
+import React from "react";
+import { renderCalderaApp, makeSharedResource } from "caldera";
+
 const messagesResource = makeSharedResource([]); // default impl of shared state
 
 const App = () => {
@@ -59,7 +63,8 @@ const App = () => {
 
 renderCalderaApp(<App />);
 ```
-Then, run the app using `node -r caldera app.js`.
+
+Then, run the app using `node app.js`.
 
 A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
@@ -81,5 +86,5 @@ A few other examples [here](https://github.com/calderajs/caldera-examples) demon
 ## Future plans
 
 - Proper versioning for state serialization
-    - This will allow support for upgrading the server in-place, while retaining certain parts of the client state
+  - This will allow support for upgrading the server in-place, while retaining certain parts of the client state
 - Support for selectively rendering arbitrary React components on the client
