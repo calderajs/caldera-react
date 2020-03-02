@@ -10,7 +10,7 @@ export const HooksInjector = ({
     .__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
     .current;
 
-  if (!currentReactDispatcher.__CALDERA_PATCHED_HOOK__) {
+  if (!currentReactDispatcher.__CALDERA_PATCHED_DISPATCHER__) {
     const origUseState = currentReactDispatcher.useState;
     const newUseState = (initialState: any) => {
       const { savedState } = currentReactDispatcher.readContext(
@@ -35,7 +35,7 @@ export const HooksInjector = ({
     };
     currentReactDispatcher.useReducer = newUseReducer;
 
-    currentReactDispatcher.__CALDERA_PATCHED_HOOK__ = true;
+    currentReactDispatcher.__CALDERA_PATCHED_DISPATCHER__ = true;
   }
 
   return children;
