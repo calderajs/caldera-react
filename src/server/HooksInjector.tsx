@@ -35,7 +35,6 @@ export const HooksInjector = ({
     };
     currentReactDispatcher.useReducer = newUseReducer;
 
-    console.log("Injected hooks into React dispatcher");
     currentReactDispatcher.__CALDERA_PATCHED_HOOK__ = true;
   }
 
