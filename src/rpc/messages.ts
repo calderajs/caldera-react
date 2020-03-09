@@ -18,7 +18,6 @@ export const enum MessageType {
   UPDATE_ATTRS,
   SCROLL_INTO_VIEW,
   DISPATCH_EVENT,
-  DISPATCH_KEY_EVENT,
   PONG,
   APPEND_OR_UPDATE_HEAD,
   DELETE_HEAD
@@ -89,20 +88,6 @@ export interface DispatchEventMessage {
   performDefault: boolean;
 }
 
-export interface DispatchKeyEventMessage {
-  msg: MessageType.DISPATCH_KEY_EVENT;
-  target: NodeID;
-  name: string;
-  key: string;
-  code: string;
-  location: number;
-  ctrlKey: boolean;
-  shiftKey: boolean;
-  altKey: boolean;
-  metaKey: boolean;
-  repeat: boolean;
-}
-
 export interface ScrollIntoViewMessage {
   msg: MessageType.SCROLL_INTO_VIEW;
   target: NodeID;
@@ -138,7 +123,6 @@ export type CalderaRPCMessage =
   | UpdateAttrsMessage
   | ScrollIntoViewMessage
   | DispatchEventMessage
-  | DispatchKeyEventMessage
   | AppendOrUpdateHeadMesage
   | DeleteHeadMesage
   | PongMessage;

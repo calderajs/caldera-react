@@ -14,8 +14,7 @@ import {
   SetInitialAttrsMessage,
   SetSessionTokenMessage,
   UpdateAttrsMessage,
-  UpdateTextMessage,
-  DispatchKeyEventMessage
+  UpdateTextMessage
 } from "../generated/rpcMessage.js";
 import {
   CalderaRPCMessage,
@@ -84,10 +83,6 @@ const writeRPCMessage = (pbf: Pbf, data: CalderaRPCMessage) => {
     }
     case MessageType.DISPATCH_EVENT: {
       pbf.writeMessage(data.msg, DispatchEventMessage.write, data);
-      break;
-    }
-    case MessageType.DISPATCH_KEY_EVENT: {
-      pbf.writeMessage(data.msg, DispatchKeyEventMessage.write, data);
       break;
     }
     case MessageType.SCROLL_INTO_VIEW: {

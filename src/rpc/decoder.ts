@@ -20,8 +20,7 @@ import {
   ScrollIntoViewMessage,
   AppendOrUpdateHeadMessage,
   DeleteHeadMessage,
-  PongMessage,
-  DispatchKeyEventMessage
+  PongMessage
 } from "../generated/rpcMessage";
 import {
   SimpleDOMEvent,
@@ -81,10 +80,6 @@ const readRPCMessage = (tag: number, acc?: CalderaRPCMessage[], pbf?: Pbf) => {
     }
     case MessageType.DISPATCH_EVENT: {
       data = DispatchEventMessage.read(pbf, end);
-      break;
-    }
-    case MessageType.DISPATCH_KEY_EVENT: {
-      data = DispatchKeyEventMessage.read(pbf, end);
       break;
     }
     case MessageType.SCROLL_INTO_VIEW: {
