@@ -50,19 +50,6 @@ message DispatchEventMessage {
   bool performDefault = 3;
 }
 
-message DispatchKeyEventMessage {
-  uint64 target = 1;
-  string name = 2;
-  string key = 3;
-  string code = 4;
-  uint64 location = 5;
-  bool ctrlKey = 6;
-  bool shiftKey = 7;
-  bool altKey = 8;
-  bool metaKey = 9;
-  bool repeat = 10;
-}
-
 message ScrollIntoViewOptions {
   string block = 1;
   string inline = 2;
