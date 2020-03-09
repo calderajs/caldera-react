@@ -14,7 +14,8 @@ import {
   SetInitialAttrsMessage,
   SetSessionTokenMessage,
   UpdateAttrsMessage,
-  UpdateTextMessage
+  UpdateTextMessage,
+  DispatchKeyEventMessage
 } from "../generated/rpcMessage.js";
 import {
   CalderaRPCMessage,
@@ -25,7 +26,8 @@ import {
 import {
   SimpleDOMEvent,
   DOMInputEvent,
-  PingEvent
+  PingEvent,
+  DOMKeyEvent
 } from "../generated/rpcEvent.js";
 
 const stringifyValues = (obj: object) => {
@@ -84,6 +86,10 @@ const writeRPCMessage = (pbf: Pbf, data: CalderaRPCMessage) => {
       pbf.writeMessage(data.msg, DispatchEventMessage.write, data);
       break;
     }
+    case MessageType.DISPATCH_KEY_EVENT: {
+      pbf.writeMessage(data.msg, DispatchKeyEventMessage.write, data);
+      break;
+    }
     case MessageType.SCROLL_INTO_VIEW: {
       pbf.writeMessage(data.msg, ScrollIntoViewMessage.write, data);
       break;
@@ -124,6 +130,10 @@ export const writeRPCEvent = (data: CalderaRPCEvent) => {
     }
     case EventType.DOM_INPUT_EVENT: {
       DOMInputEvent.write(data, pbf);
+      break;
+    }
+    case EventType.DOM_KEY_EVENT: {
+      DOMKeyEvent.write(data, pbf);
       break;
     }
     case EventType.PING: {

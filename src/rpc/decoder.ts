@@ -20,12 +20,14 @@ import {
   ScrollIntoViewMessage,
   AppendOrUpdateHeadMessage,
   DeleteHeadMessage,
-  PongMessage
+  PongMessage,
+  DispatchKeyEventMessage
 } from "../generated/rpcMessage";
 import {
   SimpleDOMEvent,
   DOMInputEvent,
-  PingEvent
+  PingEvent,
+  DOMKeyEvent
 } from "../generated/rpcEvent";
 
 const parseValues = (obj: object) => {
@@ -81,6 +83,10 @@ const readRPCMessage = (tag: number, acc?: CalderaRPCMessage[], pbf?: Pbf) => {
       data = DispatchEventMessage.read(pbf, end);
       break;
     }
+    case MessageType.DISPATCH_KEY_EVENT: {
+      data = DispatchKeyEventMessage.read(pbf, end);
+      break;
+    }
     case MessageType.SCROLL_INTO_VIEW: {
       data = ScrollIntoViewMessage.read(pbf, end);
       break;
@@ -125,6 +131,10 @@ export const readRPCEvent = (
     }
     case EventType.DOM_INPUT_EVENT: {
       data = DOMInputEvent.read(pbf);
+      break;
+    }
+    case EventType.DOM_KEY_EVENT: {
+      data = DOMKeyEvent.read(pbf);
       break;
     }
     case EventType.PING: {

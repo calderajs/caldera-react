@@ -114,7 +114,8 @@ export default class CalderaContainer {
         break;
       }
       case EventType.DOM_INPUT_EVENT:
-      case EventType.DOM_EVENT: {
+      case EventType.DOM_EVENT:
+      case EventType.DOM_KEY_EVENT: {
         const target = this.sessionElementRefs.get(e.target);
 
         // Prevent a malformed client call from crashing the whole event loop
@@ -175,12 +176,15 @@ export default class CalderaContainer {
 
           // Only redispatch events that support cancellation
           if (e.cancelable && !event.defaultPrevented) {
-            this.dispatcher.dispatch(this.sessionId, {
-              msg: MessageType.DISPATCH_EVENT,
-              name: e.name,
-              target: e.target,
-              performDefault: true
-            });
+            if (e.event === EventType.DOM_KEY_EVENT) {
+            } else {
+              this.dispatcher.dispatch(this.sessionId, {
+                msg: MessageType.DISPATCH_EVENT,
+                name: e.name,
+                target: e.target,
+                performDefault: true
+              });
+            }
           }
 
           this.dispatcher.requestFlush(this.sessionId);
