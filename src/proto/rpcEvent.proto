@@ -18,4 +18,21 @@ message DOMInputEvent {
   bool checked = 7;
 }
 
+message DOMKeyEvent {
+  uint64 target = 1;
+  uint64 target = 1;
+  string name = 2;
+  bool cancelable = 3;
+  bool bubbles = 4;
+  repeated uint64 composedPath = 5;
+  string key = 6;
+  string code = 7;
+  uint64 location = 8;
+  bool ctrlKey = 9;
+  bool shiftKey = 10;
+  bool altKey = 11;
+  bool metaKey = 12;
+  bool repeat = 13;
+}
+
 message PingEvent { uint64 nonce = 1; }

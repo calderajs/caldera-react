@@ -25,7 +25,8 @@ import {
 import {
   SimpleDOMEvent,
   DOMInputEvent,
-  PingEvent
+  PingEvent,
+  DOMKeyEvent
 } from "../generated/rpcEvent.js";
 
 const stringifyValues = (obj: object) => {
@@ -124,6 +125,10 @@ export const writeRPCEvent = (data: CalderaRPCEvent) => {
     }
     case EventType.DOM_INPUT_EVENT: {
       DOMInputEvent.write(data, pbf);
+      break;
+    }
+    case EventType.DOM_KEY_EVENT: {
+      DOMKeyEvent.write(data, pbf);
       break;
     }
     case EventType.PING: {

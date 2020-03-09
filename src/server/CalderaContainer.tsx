@@ -114,7 +114,8 @@ export default class CalderaContainer {
         break;
       }
       case EventType.DOM_INPUT_EVENT:
-      case EventType.DOM_EVENT: {
+      case EventType.DOM_EVENT:
+      case EventType.DOM_KEY_EVENT: {
         const target = this.sessionElementRefs.get(e.target);
 
         // Prevent a malformed client call from crashing the whole event loop
@@ -143,7 +144,17 @@ export default class CalderaContainer {
                   event.defaultPrevented = true;
                 }
               : () => {},
-            target
+            target,
+            ...(e.event === EventType.DOM_KEY_EVENT && {
+              key: e.key,
+              code: e.code,
+              location: e.location,
+              ctrlKey: e.ctrlKey,
+              shiftKey: e.shiftKey,
+              altKey: e.altKey,
+              metaKey: e.metaKey,
+              repeat: e.repeat
+            })
           };
 
           // Match ReactDOM behavior (batch when triggering event dispatch callbacks)

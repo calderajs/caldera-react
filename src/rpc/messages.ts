@@ -134,6 +134,7 @@ export interface CalderaRPCCallback {
 export const enum EventType {
   DOM_EVENT,
   DOM_INPUT_EVENT,
+  DOM_KEY_EVENT,
   PING
 }
 
@@ -151,6 +152,22 @@ export type DOMInputEvent = GenericDOMEvent & {
   checked: boolean;
 };
 
+export type DOMKeyEvent = GenericDOMEvent & {
+  event: EventType.DOM_KEY_EVENT;
+  key: string;
+  code: string;
+  location: number;
+  ctrlKey: boolean;
+  shiftKey: boolean;
+  altKey: boolean;
+  metaKey: boolean;
+  repeat: boolean;
+};
+
 export type PingEvent = { event: EventType.PING; nonce: number };
 
-export type CalderaRPCEvent = SimpleDOMEvent | DOMInputEvent | PingEvent;
+export type CalderaRPCEvent =
+  | SimpleDOMEvent
+  | DOMInputEvent
+  | DOMKeyEvent
+  | PingEvent;

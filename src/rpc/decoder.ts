@@ -25,7 +25,8 @@ import {
 import {
   SimpleDOMEvent,
   DOMInputEvent,
-  PingEvent
+  PingEvent,
+  DOMKeyEvent
 } from "../generated/rpcEvent";
 
 const parseValues = (obj: object) => {
@@ -125,6 +126,10 @@ export const readRPCEvent = (
     }
     case EventType.DOM_INPUT_EVENT: {
       data = DOMInputEvent.read(pbf);
+      break;
+    }
+    case EventType.DOM_KEY_EVENT: {
+      data = DOMKeyEvent.read(pbf);
       break;
     }
     case EventType.PING: {
