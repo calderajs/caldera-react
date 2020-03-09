@@ -177,6 +177,19 @@ export default class CalderaContainer {
           // Only redispatch events that support cancellation
           if (e.cancelable && !event.defaultPrevented) {
             if (e.event === EventType.DOM_KEY_EVENT) {
+              this.dispatcher.dispatch(this.sessionId, {
+                key: e.key,
+                code: e.code,
+                target: e.target,
+                name: e.name,
+                location: e.location,
+                ctrlKey: e.ctrlKey,
+                altKey: e.altKey,
+                shiftKey: e.shiftKey,
+                metaKey: e.metaKey,
+                repeat: e.repeat,
+                msg: MessageType.DISPATCH_KEY_EVENT
+              });
             } else {
               this.dispatcher.dispatch(this.sessionId, {
                 msg: MessageType.DISPATCH_EVENT,
