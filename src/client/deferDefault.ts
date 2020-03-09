@@ -4,7 +4,8 @@ export const shouldDeferDefault = (evtName: string) =>
   evtName === "submit" ||
   evtName === "focus" ||
   evtName === "blur" ||
-  evtName === "click";
+  evtName === "click" ||
+  evtName === "keydown";
 
 const executing = new Map<Node, string>();
 

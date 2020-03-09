@@ -2,7 +2,8 @@ import {
   DOMInputEvent,
   EventType,
   NodeID,
-  SimpleDOMEvent
+  SimpleDOMEvent,
+  DOMKeyEvent
 } from "../rpc/messages";
 import { rebounce } from "./debounce";
 import { checkDefaultDispatch, shouldDeferDefault } from "./deferDefault";
@@ -60,11 +61,27 @@ export const addCallbackToNode = (nodeId: NodeID, name: string) => {
     // (except for onChange)
     let evtProps:
       | WithoutPropagationProps<SimpleDOMEvent>
-      | WithoutPropagationProps<DOMInputEvent>;
+      | WithoutPropagationProps<DOMInputEvent>
+      | WithoutPropagationProps<DOMKeyEvent>;
 
     const cancelable = shouldDeferDefault(name);
 
-    if (
+    if (e instanceof KeyboardEvent) {
+      evtProps = {
+        event: EventType.DOM_KEY_EVENT,
+        target: targetId,
+        name,
+        cancelable,
+        key: e.key,
+        code: e.code,
+        location: e.location,
+        ctrlKey: e.ctrlKey,
+        shiftKey: e.shiftKey,
+        altKey: e.altKey,
+        metaKey: e.metaKey,
+        repeat: e.repeat
+      };
+    } else if (
       e.target instanceof HTMLInputElement ||
       e.target instanceof HTMLSelectElement ||
       e.target instanceof HTMLTextAreaElement
