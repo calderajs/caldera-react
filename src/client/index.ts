@@ -22,7 +22,7 @@ import {
   scheduleDebounced,
   clearDebounceTasks
 } from "./debounce";
-import { execDOMEvent } from "./deferDefault";
+import { execDOMEvent, execKeyboardEvent } from "./deferDefault";
 import { handleAppendOrUpdateHead, handleDeleteHead, clearHead } from "./head";
 import { applyStylesToNode, withDebugName, sleep } from "./util";
 
@@ -226,6 +226,11 @@ const processMessage = (data: CalderaRPCMessage) => {
     case MessageType.DISPATCH_EVENT: {
       const target = getNode(data.target);
       execDOMEvent(target, data.name, data.performDefault);
+      break;
+    }
+    case MessageType.DISPATCH_KEY_EVENT: {
+      const target = getNode(data.target);
+      execKeyboardEvent(target, data);
       break;
     }
     default:

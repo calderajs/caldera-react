@@ -1,3 +1,5 @@
+import { DispatchKeyEventMessage } from "../rpc/messages";
+
 export const shouldDeferDefault = (evtName: string) =>
   evtName === "submit" ||
   evtName === "focus" ||
@@ -60,4 +62,27 @@ export const execDOMEvent = (
   if (performDefault) {
     executing.delete(target);
   }
+};
+
+export const execKeyboardEvent = (
+  target: Node,
+  msg: Omit<DispatchKeyEventMessage, "target">
+) => {
+  if (!(target instanceof HTMLElement)) {
+    throw new Error(`Tried dispatching ${msg.name} on non-element target`);
+  }
+
+  executing.set(target, msg.name);
+
+  switch (msg.name) {
+    case "keydown": {
+      target.dispatchEvent(new KeyboardEvent(msg.name, msg));
+      break;
+    }
+    default: {
+      throw new Error(`Invalid key event ${msg.name}`);
+    }
+  }
+
+  executing.delete(target);
 };
