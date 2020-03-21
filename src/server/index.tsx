@@ -16,6 +16,8 @@ import {
 import CalderaContainer from "./CalderaContainer";
 import createRenderer from "./calderaRenderer";
 import { makeDispatcher } from "./dispatcher";
+import finalhandler from "finalhandler";
+import serve from "./serve";
 
 export * from "./listener";
 export * from "./head";
@@ -34,12 +36,7 @@ export const renderCalderaApp = (
   const savedStates = new Map<SessionID, Buffer>();
   console.log("creating server");
   const server = http.createServer((req, res) =>
-    serveHandler(req, res, {
-      public: path.resolve(__dirname, "..", "public"),
-      etag: true,
-      directoryListing: false,
-      rewrites: [{ source: "**", destination: "index.html" }]
-    })
+    serve(req, res, finalhandler(req, res))
   );
   const wss = new WebSocket.Server({
     noServer: true,

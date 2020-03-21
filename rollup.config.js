@@ -11,7 +11,7 @@ export default [
     input: "./src/client/index.ts",
     output: {
       name: "caldera-client",
-      file: "dist/public/index.js",
+      file: "dist/public/caldera-client.js",
       format: "umd"
     },
     plugins: [
