@@ -32,12 +32,13 @@ export const renderCalderaApp = (
   options: { port?: number; hostname?: string } = {}
 ) => {
   const savedStates = new Map<SessionID, Buffer>();
-
+  console.log("creating server");
   const server = http.createServer((req, res) =>
     serveHandler(req, res, {
       public: path.resolve(__dirname, "..", "public"),
       etag: true,
-      directoryListing: false
+      directoryListing: false,
+      rewrites: [{ source: "**", destination: "index.html" }]
     })
   );
   const wss = new WebSocket.Server({
@@ -102,6 +103,7 @@ export const renderCalderaApp = (
   );
 
   server.on("upgrade", (request: IncomingMessage, socket, head) => {
+    console.log(request.url);
     const tokenFromCookie =
       request.headers.cookie &&
       (cookie.parse(request.headers.cookie)[CALDERA_SESSION_TOKEN_COOKIE] as

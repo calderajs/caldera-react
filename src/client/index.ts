@@ -234,14 +234,14 @@ const processMessage = (data: CalderaRPCMessage) => {
 };
 
 // Use the ws equivalent of whatever the current url is
-const serverUrl = new URL(window.location.origin);
+const serverUrl = new URL(window.location.origin + window.location.pathname);
 serverUrl.protocol = serverUrl.protocol === "https:" ? "wss:" : "ws:";
 
 // Misnomer, but whatever
 let connected = false;
 
 const connect = () => {
-  ws = new WebSocket(serverUrl.origin);
+  ws = new WebSocket(serverUrl.href);
   ws.binaryType = "arraybuffer";
   connected = true;
 
