@@ -34,7 +34,6 @@ export const renderCalderaApp = (
   options: { port?: number; hostname?: string } = {}
 ) => {
   const savedStates = new Map<SessionID, Buffer>();
-  console.log("creating server");
   const server = http.createServer((req, res) =>
     serve(req, res, finalhandler(req, res))
   );
@@ -100,7 +99,7 @@ export const renderCalderaApp = (
   );
 
   server.on("upgrade", (request: IncomingMessage, socket, head) => {
-    console.log(request.url);
+    console.log("Initial url", request.url);
     const tokenFromCookie =
       request.headers.cookie &&
       (cookie.parse(request.headers.cookie)[CALDERA_SESSION_TOKEN_COOKIE] as

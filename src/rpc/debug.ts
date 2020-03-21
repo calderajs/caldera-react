@@ -58,6 +58,9 @@ export const getDebugEventType = (type: EventType): string => {
     case EventType.DOM_KEY_EVENT: {
       return "DOM_KEY_EVENT";
     }
+    case EventType.HISTORY_EVENT: {
+      return "HISTORY_EVENT";
+    }
     case EventType.PING: {
       return "PING";
     }

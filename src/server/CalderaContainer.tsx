@@ -113,6 +113,11 @@ export default class CalderaContainer {
         );
         break;
       }
+      case EventType.HISTORY_EVENT: {
+        // todo: update context
+        console.log(e);
+        break;
+      }
       case EventType.DOM_INPUT_EVENT:
       case EventType.DOM_EVENT:
       case EventType.DOM_KEY_EVENT: {

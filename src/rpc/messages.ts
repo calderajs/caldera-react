@@ -135,6 +135,7 @@ export const enum EventType {
   DOM_EVENT,
   DOM_INPUT_EVENT,
   DOM_KEY_EVENT,
+  HISTORY_EVENT,
   PING
 }
 
@@ -164,10 +165,23 @@ export type DOMKeyEvent = GenericDOMEvent & {
   repeat: boolean;
 };
 
+export const enum HistoryAction {
+  PUSH,
+  REPLACE,
+  POP
+}
+
+export type HistoryEvent = {
+  event: EventType.HISTORY_EVENT;
+  action: HistoryAction;
+  path: string;
+};
+
 export type PingEvent = { event: EventType.PING; nonce: number };
 
 export type CalderaRPCEvent =
   | SimpleDOMEvent
   | DOMInputEvent
   | DOMKeyEvent
+  | HistoryEvent
   | PingEvent;
