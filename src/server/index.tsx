@@ -74,10 +74,15 @@ export const renderCalderaApp = (
 
   wss.on(
     "connection",
-    (ws: WebSocket, session: SessionID, savedState?: Buffer) => {
+    (
+      ws: WebSocket,
+      session: SessionID,
+      initialPath: string,
+      savedState?: Buffer
+    ) => {
       console.log("Websocket Connection ID:", session);
       wsForSession.set(session, ws);
-      const container = renderer.render(app, session, savedState);
+      const container = renderer.render(app, session, initialPath, savedState);
       containerForSession.set(session, container);
 
       ws.on("message", msg => {
@@ -97,7 +102,7 @@ export const renderCalderaApp = (
   );
 
   server.on("upgrade", (request: IncomingMessage, socket, head) => {
-    console.log("Initial url", request.url);
+    const initialPath = request.url;
     const tokenFromCookie =
       request.headers.cookie &&
       (cookie.parse(request.headers.cookie)[CALDERA_SESSION_TOKEN_COOKIE] as
@@ -122,7 +127,7 @@ export const renderCalderaApp = (
     }
 
     wss.handleUpgrade(request, socket, head, ws => {
-      wss.emit("connection", ws, session, savedState);
+      wss.emit("connection", ws, session, initialPath, savedState);
     });
   });
 

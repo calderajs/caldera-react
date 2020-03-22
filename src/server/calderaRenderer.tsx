@@ -374,6 +374,7 @@ export const createRenderer = (dispatcher: Dispatcher) => {
     render: (
       element: React.ReactElement,
       sessionId: SessionID,
+      initialPath: string,
       savedState?: Buffer
     ) => {
       // Lock flush until initial render complete
@@ -388,6 +389,7 @@ export const createRenderer = (dispatcher: Dispatcher) => {
         elementRefs,
         reconciler,
         dispatcher,
+        initialPath,
         savedState && v8.deserialize(savedState),
         element
       );
