@@ -16,7 +16,7 @@ import { Dispatcher } from "./dispatcher";
 import { CalderaElement, CalderaInputElement } from "./instances";
 import { walkFiberRoot } from "./walkFiberRoot";
 import { HooksInjector } from "./HooksInjector";
-import { SessionHistory } from "./history";
+import { SessionHistory, updateHistory } from "./history";
 
 export const CalderaContext = React.createContext<{
   dispatch: (msg: CalderaRPCMessage) => void;
@@ -127,8 +127,7 @@ export default class CalderaContainer {
         break;
       }
       case EventType.HISTORY_EVENT: {
-        this.history.path = e.path;
-        this.history.listeners.forEach(listener => listener());
+        updateHistory(this.history, e.path);
         break;
       }
       case EventType.DOM_INPUT_EVENT:

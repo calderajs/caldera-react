@@ -4,3 +4,10 @@ export type SessionHistory = {
   // https://github.com/facebook/react/issues/14110
   listeners: Set<() => void>;
 };
+
+export const updateHistory = (history: SessionHistory, path: string) => {
+  if (history.path !== path) {
+    history.path = path;
+    history.listeners.forEach(listener => listener());
+  }
+};
