@@ -13,13 +13,19 @@ const actionEnumMapping = {
 let unsubscribeListener: (() => void) | null = null;
 
 export const registerHistoryListener = () => {
-  unsubscribeListener = history.listen((location, action) => {
-    dispatchEvent({
-      event: EventType.HISTORY_EVENT,
-      action: actionEnumMapping[action],
-      path: location.pathname + location.search
+  if (!unsubscribeListener) {
+    unsubscribeListener = history.listen((location, action) => {
+      dispatchEvent({
+        event: EventType.HISTORY_EVENT,
+        action: actionEnumMapping[action],
+        path: location.pathname + location.search
+      });
     });
-  });
+  } else {
+    throw new Error(
+      "Attempted to register history listener when already registered"
+    );
+  }
 };
 
 export const cleanupHistoryListener = () => unsubscribeListener?.();
