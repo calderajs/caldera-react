@@ -15,7 +15,17 @@ export const useLocation = () => {
     };
   });
 
-  return useMemo(() => ({ path }), [path]);
+  return useMemo(() => {
+    const searchIdx = path.indexOf("?");
+    if (searchIdx === -1) {
+      return { pathname: path, search: "" };
+    } else {
+      return {
+        pathname: path.slice(0, searchIdx),
+        search: path.slice(searchIdx, path.length)
+      };
+    }
+  }, [path]);
 };
 
 export const useHistory = () => {
