@@ -127,8 +127,8 @@ export default class CalderaContainer {
         break;
       }
       case EventType.HISTORY_EVENT: {
-        // todo: update context
-        console.log(e);
+        this.history.path = e.path;
+        this.history.listeners.forEach(listener => listener(e.path));
         break;
       }
       case EventType.DOM_INPUT_EVENT:
