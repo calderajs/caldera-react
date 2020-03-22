@@ -17,7 +17,7 @@ export const registerHistoryListener = () => {
     dispatchEvent({
       event: EventType.HISTORY_EVENT,
       action: actionEnumMapping[action],
-      path: location.pathname
+      path: location.pathname + location.search
     });
   });
 };

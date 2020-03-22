@@ -236,7 +236,7 @@ const processMessage = (data: CalderaRPCMessage) => {
 };
 
 // Use the ws equivalent of whatever the current url is
-const serverUrl = new URL(window.location.origin + window.location.pathname);
+const serverUrl = new URL(window.location.href);
 serverUrl.protocol = serverUrl.protocol === "https:" ? "wss:" : "ws:";
 
 // Misnomer, but whatever
