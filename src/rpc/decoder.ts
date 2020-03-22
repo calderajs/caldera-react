@@ -20,13 +20,15 @@ import {
   ScrollIntoViewMessage,
   AppendOrUpdateHeadMessage,
   DeleteHeadMessage,
-  PongMessage
+  PongMessage,
+  HistoryMessage
 } from "../generated/rpcMessage";
 import {
   SimpleDOMEvent,
   DOMInputEvent,
   PingEvent,
-  DOMKeyEvent
+  DOMKeyEvent,
+  HistoryEvent
 } from "../generated/rpcEvent";
 
 const parseValues = (obj: object) => {
@@ -95,6 +97,10 @@ const readRPCMessage = (tag: number, acc?: CalderaRPCMessage[], pbf?: Pbf) => {
       data = DeleteHeadMessage.read(pbf, end);
       break;
     }
+    case MessageType.HISTORY: {
+      data = HistoryMessage.read(pbf, end);
+      break;
+    }
     case MessageType.PONG: {
       data = PongMessage.read(pbf, end);
       break;
@@ -130,6 +136,10 @@ export const readRPCEvent = (
     }
     case EventType.DOM_KEY_EVENT: {
       data = DOMKeyEvent.read(pbf);
+      break;
+    }
+    case EventType.HISTORY_EVENT: {
+      data = HistoryEvent.read(pbf);
       break;
     }
     case EventType.PING: {

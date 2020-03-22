@@ -18,6 +18,7 @@ export const enum MessageType {
   UPDATE_ATTRS,
   SCROLL_INTO_VIEW,
   DISPATCH_EVENT,
+  HISTORY,
   PONG,
   APPEND_OR_UPDATE_HEAD,
   DELETE_HEAD
@@ -106,6 +107,21 @@ export interface DeleteHeadMesage {
   elementId: HeadElementID;
 }
 
+export const enum HistoryMethod {
+  PUSH,
+  REPLACE,
+  GO
+}
+export type HistoryMessage = {
+  msg: MessageType.HISTORY;
+} & (
+  | {
+      method: HistoryMethod.GO;
+      delta: number;
+    }
+  | { method: HistoryMethod.PUSH | HistoryMethod.REPLACE; path: string }
+);
+
 export interface PongMessage {
   msg: MessageType.PONG;
   nonce: number;
@@ -125,6 +141,7 @@ export type CalderaRPCMessage =
   | DispatchEventMessage
   | AppendOrUpdateHeadMesage
   | DeleteHeadMesage
+  | HistoryMessage
   | PongMessage;
 
 export interface CalderaRPCCallback {
@@ -135,6 +152,7 @@ export const enum EventType {
   DOM_EVENT,
   DOM_INPUT_EVENT,
   DOM_KEY_EVENT,
+  HISTORY_EVENT,
   PING
 }
 
@@ -164,10 +182,23 @@ export type DOMKeyEvent = GenericDOMEvent & {
   repeat: boolean;
 };
 
+export const enum HistoryAction {
+  PUSH,
+  REPLACE,
+  POP
+}
+
+export type HistoryEvent = {
+  event: EventType.HISTORY_EVENT;
+  action: HistoryAction;
+  path: string;
+};
+
 export type PingEvent = { event: EventType.PING; nonce: number };
 
 export type CalderaRPCEvent =
   | SimpleDOMEvent
   | DOMInputEvent
   | DOMKeyEvent
+  | HistoryEvent
   | PingEvent;

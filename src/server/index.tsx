@@ -1,9 +1,8 @@
 import cookie from "cookie";
+import finalhandler from "finalhandler";
 import http, { IncomingMessage } from "http";
 import nanoid from "nanoid";
-import path from "path";
 import React from "react";
-import serveHandler from "serve-handler";
 import { Nominal } from "simplytyped";
 import WebSocket from "ws";
 import { readRPCEvent } from "../rpc/decoder";
@@ -16,9 +15,11 @@ import {
 import CalderaContainer from "./CalderaContainer";
 import createRenderer from "./calderaRenderer";
 import { makeDispatcher } from "./dispatcher";
+import serve from "./serve";
 
-export * from "./listener";
 export * from "./head";
+export * from "./listener";
+export * from "./useHistory";
 
 export type SessionID = Nominal<string, "SessionID">;
 export type Dispatch = (
@@ -32,13 +33,8 @@ export const renderCalderaApp = (
   options: { port?: number; hostname?: string } = {}
 ) => {
   const savedStates = new Map<SessionID, Buffer>();
-
   const server = http.createServer((req, res) =>
-    serveHandler(req, res, {
-      public: path.resolve(__dirname, "..", "public"),
-      etag: true,
-      directoryListing: false
-    })
+    serve(req, res, finalhandler(req, res))
   );
   const wss = new WebSocket.Server({
     noServer: true,
@@ -79,10 +75,15 @@ export const renderCalderaApp = (
 
   wss.on(
     "connection",
-    (ws: WebSocket, session: SessionID, savedState?: Buffer) => {
+    (
+      ws: WebSocket,
+      session: SessionID,
+      initialPath: string,
+      savedState?: Buffer
+    ) => {
       console.log("Websocket Connection ID:", session);
       wsForSession.set(session, ws);
-      const container = renderer.render(app, session, savedState);
+      const container = renderer.render(app, session, initialPath, savedState);
       containerForSession.set(session, container);
 
       ws.on("message", msg => {
@@ -102,6 +103,7 @@ export const renderCalderaApp = (
   );
 
   server.on("upgrade", (request: IncomingMessage, socket, head) => {
+    const initialPath = request.url;
     const tokenFromCookie =
       request.headers.cookie &&
       (cookie.parse(request.headers.cookie)[CALDERA_SESSION_TOKEN_COOKIE] as
@@ -126,7 +128,7 @@ export const renderCalderaApp = (
     }
 
     wss.handleUpgrade(request, socket, head, ws => {
-      wss.emit("connection", ws, session, savedState);
+      wss.emit("connection", ws, session, initialPath, savedState);
     });
   });
 

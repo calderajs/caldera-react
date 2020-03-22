@@ -25,6 +25,11 @@ import {
 import { execDOMEvent } from "./deferDefault";
 import { handleAppendOrUpdateHead, handleDeleteHead, clearHead } from "./head";
 import { applyStylesToNode, withDebugName, sleep } from "./util";
+import {
+  registerHistoryListener,
+  cleanupHistoryListener,
+  handleHistory
+} from "./history";
 
 const LATENCY_SIM = 0;
 // TODO: Figure out fluctuation
@@ -70,13 +75,15 @@ let requestPingTask: number;
 const processMessage = (data: CalderaRPCMessage) => {
   switch (data.msg) {
     case MessageType.SET_SESSION_TOKEN: {
-      const clearedRoot = rootNode.cloneNode(false);
-      // eslint-disable-next-line no-unused-expressions
-      clearedRoot.parentNode?.replaceChild(clearedRoot, rootNode);
+      while (rootNode.firstChild) {
+        rootNode.removeChild(rootNode.firstChild);
+      }
+
       nodeMap.clear();
       clearHead();
       clearCallbackHandlers();
       clearDebounceTasks();
+      registerHistoryListener();
 
       const token = data.token;
       Cookies.set(CALDERA_SESSION_TOKEN_COOKIE, token);
@@ -184,6 +191,10 @@ const processMessage = (data: CalderaRPCMessage) => {
       handleDeleteHead(data);
       break;
     }
+    case MessageType.HISTORY: {
+      handleHistory(data);
+      break;
+    }
     case MessageType.SET_INITIAL_ATTRS: {
       const node = getNode(data.nodeId);
       if (!(node instanceof HTMLElement)) {
@@ -234,14 +245,14 @@ const processMessage = (data: CalderaRPCMessage) => {
 };
 
 // Use the ws equivalent of whatever the current url is
-const serverUrl = new URL(window.location.origin);
+const serverUrl = new URL(window.location.href);
 serverUrl.protocol = serverUrl.protocol === "https:" ? "wss:" : "ws:";
 
 // Misnomer, but whatever
 let connected = false;
 
 const connect = () => {
-  ws = new WebSocket(serverUrl.origin);
+  ws = new WebSocket(serverUrl.href);
   ws.binaryType = "arraybuffer";
   connected = true;
 
@@ -260,6 +271,7 @@ const connect = () => {
   ws.addEventListener("close", () => {
     window.clearInterval(requestPingTask);
     pingTimes.clear();
+    cleanupHistoryListener();
     connected = false;
   });
 };

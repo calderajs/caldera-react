@@ -16,9 +16,11 @@ import { Dispatcher } from "./dispatcher";
 import { CalderaElement, CalderaInputElement } from "./instances";
 import { walkFiberRoot } from "./walkFiberRoot";
 import { HooksInjector } from "./HooksInjector";
+import { SessionHistory, updateHistory } from "./history";
 
 export const CalderaContext = React.createContext<{
   dispatch: (msg: CalderaRPCMessage) => void;
+  history: SessionHistory;
   requestFlush: () => void;
   savedState?: any[];
   nextHeadElementId: number;
@@ -28,6 +30,10 @@ export const CalderaContext = React.createContext<{
   },
   requestFlush: () => {
     throw new Error("not implemented");
+  },
+  history: {
+    path: "/",
+    listeners: new Set()
   },
   savedState: [],
   nextHeadElementId: 0
@@ -45,12 +51,14 @@ export default class CalderaContainer {
   readonly dispatcher: Dispatcher;
   readonly sessionElementRefs: Map<NodeID, CalderaElement>;
   readonly container: ReactReconciler.FiberRoot;
+  readonly history: SessionHistory;
 
   constructor(
     sessionId: SessionID,
     elementRefs: Map<SessionID, Map<NodeID, CalderaElement>>,
     reconciler: ReactReconciler.Reconciler<unknown, unknown, unknown, unknown>,
     dispatcher: Dispatcher,
+    initialPath: string,
     savedState: any[] | undefined,
     rootEl: React.ReactElement
   ) {
@@ -58,6 +66,10 @@ export default class CalderaContainer {
     this.elementRefs = elementRefs;
     this.dispatcher = dispatcher;
     this.reconciler = reconciler;
+    this.history = {
+      path: initialPath,
+      listeners: new Set()
+    };
 
     const sessionElementRefs = new Map<NodeID, CalderaElement>();
     elementRefs.set(sessionId, sessionElementRefs);
@@ -68,6 +80,7 @@ export default class CalderaContainer {
       dispatch: (msg: CalderaRPCMessage) =>
         this.dispatcher.dispatch(this.sessionId, msg),
       requestFlush: () => dispatcher.requestFlush(this.sessionId),
+      history: this.history,
       savedState,
       nextHeadElementId: 0
     };
@@ -111,6 +124,10 @@ export default class CalderaContainer {
           },
           true
         );
+        break;
+      }
+      case EventType.HISTORY_EVENT: {
+        updateHistory(this.history, e.path);
         break;
       }
       case EventType.DOM_INPUT_EVENT:

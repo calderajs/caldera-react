@@ -35,4 +35,9 @@ message DOMKeyEvent {
   bool repeat = 13;
 }
 
+message HistoryEvent {
+  uint64 action = 1;
+  string path = 2;
+}
+
 message PingEvent { uint64 nonce = 1; }

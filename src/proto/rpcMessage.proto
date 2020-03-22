@@ -68,4 +68,10 @@ message AppendOrUpdateHeadMessage {
 
 message DeleteHeadMessage { uint64 elementId = 1; }
 
+message HistoryMessage {
+  uint64 method = 1;
+  string path = 2;
+  int64 delta = 3;
+}
+
 message PongMessage { uint64 nonce = 1; }

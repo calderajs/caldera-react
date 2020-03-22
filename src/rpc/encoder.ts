@@ -14,7 +14,8 @@ import {
   SetInitialAttrsMessage,
   SetSessionTokenMessage,
   UpdateAttrsMessage,
-  UpdateTextMessage
+  UpdateTextMessage,
+  HistoryMessage
 } from "../generated/rpcMessage.js";
 import {
   CalderaRPCMessage,
@@ -26,7 +27,8 @@ import {
   SimpleDOMEvent,
   DOMInputEvent,
   PingEvent,
-  DOMKeyEvent
+  DOMKeyEvent,
+  HistoryEvent
 } from "../generated/rpcEvent.js";
 
 const stringifyValues = (obj: object) => {
@@ -100,6 +102,10 @@ const writeRPCMessage = (pbf: Pbf, data: CalderaRPCMessage) => {
       pbf.writeMessage(data.msg, DeleteHeadMessage.write, data);
       break;
     }
+    case MessageType.HISTORY: {
+      pbf.writeMessage(data.msg, HistoryMessage.write, data);
+      break;
+    }
     case MessageType.PONG: {
       pbf.writeMessage(data.msg, PongMessage.write, data);
       break;
@@ -129,6 +135,10 @@ export const writeRPCEvent = (data: CalderaRPCEvent) => {
     }
     case EventType.DOM_KEY_EVENT: {
       DOMKeyEvent.write(data, pbf);
+      break;
+    }
+    case EventType.HISTORY_EVENT: {
+      HistoryEvent.write(data, pbf);
       break;
     }
     case EventType.PING: {
