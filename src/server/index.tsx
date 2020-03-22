@@ -19,6 +19,7 @@ import serve from "./serve";
 
 export * from "./head";
 export * from "./listener";
+export * from "./useHistory";
 
 export type SessionID = Nominal<string, "SessionID">;
 export type Dispatch = (
