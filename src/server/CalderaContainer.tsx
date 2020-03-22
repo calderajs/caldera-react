@@ -128,7 +128,7 @@ export default class CalderaContainer {
       }
       case EventType.HISTORY_EVENT: {
         this.history.path = e.path;
-        this.history.listeners.forEach(listener => listener(e.path));
+        this.history.listeners.forEach(listener => listener());
         break;
       }
       case EventType.DOM_INPUT_EVENT:
