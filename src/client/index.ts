@@ -25,6 +25,7 @@ import {
 import { execDOMEvent } from "./deferDefault";
 import { handleAppendOrUpdateHead, handleDeleteHead, clearHead } from "./head";
 import { applyStylesToNode, withDebugName, sleep } from "./util";
+import { registerHistoryListener, cleanupHistoryListener } from "./history";
 
 const LATENCY_SIM = 0;
 // TODO: Figure out fluctuation
@@ -77,6 +78,7 @@ const processMessage = (data: CalderaRPCMessage) => {
       clearHead();
       clearCallbackHandlers();
       clearDebounceTasks();
+      registerHistoryListener();
 
       const token = data.token;
       Cookies.set(CALDERA_SESSION_TOKEN_COOKIE, token);
@@ -260,6 +262,7 @@ const connect = () => {
   ws.addEventListener("close", () => {
     window.clearInterval(requestPingTask);
     pingTimes.clear();
+    cleanupHistoryListener();
     connected = false;
   });
 };

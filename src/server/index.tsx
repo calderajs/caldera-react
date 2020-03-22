@@ -1,9 +1,8 @@
 import cookie from "cookie";
+import finalhandler from "finalhandler";
 import http, { IncomingMessage } from "http";
 import nanoid from "nanoid";
-import path from "path";
 import React from "react";
-import serveHandler from "serve-handler";
 import { Nominal } from "simplytyped";
 import WebSocket from "ws";
 import { readRPCEvent } from "../rpc/decoder";
@@ -16,11 +15,10 @@ import {
 import CalderaContainer from "./CalderaContainer";
 import createRenderer from "./calderaRenderer";
 import { makeDispatcher } from "./dispatcher";
-import finalhandler from "finalhandler";
 import serve from "./serve";
 
-export * from "./listener";
 export * from "./head";
+export * from "./listener";
 
 export type SessionID = Nominal<string, "SessionID">;
 export type Dispatch = (
