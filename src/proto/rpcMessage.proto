@@ -69,8 +69,9 @@ message AppendOrUpdateHeadMessage {
 message DeleteHeadMessage { uint64 elementId = 1; }
 
 message HistoryMessage {
-  uint64 action = 1;
+  uint64 method = 1;
   string path = 2;
+  uint64 delta = 3;
 }
 
 message PongMessage { uint64 nonce = 1; }
