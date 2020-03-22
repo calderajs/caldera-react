@@ -1,5 +1,10 @@
 import { createBrowserHistory } from "history";
-import { EventType, HistoryAction, HistoryMessage } from "../rpc/messages";
+import {
+  EventType,
+  HistoryAction,
+  HistoryMessage,
+  HistoryMethod
+} from "../rpc/messages";
 import { dispatchEvent } from "./index";
 
 const history = createBrowserHistory();
@@ -30,4 +35,19 @@ export const registerHistoryListener = () => {
 
 export const cleanupHistoryListener = () => unsubscribeListener?.();
 
-export const handleHistory = (data: HistoryMessage) => {};
+export const handleHistory = (data: HistoryMessage) => {
+  switch (data.method) {
+    case HistoryMethod.PUSH: {
+      history.push(data.path);
+      break;
+    }
+    case HistoryMethod.REPLACE: {
+      history.replace(data.path);
+      break;
+    }
+    case HistoryMethod.GO: {
+      history.go(data.delta);
+      break;
+    }
+  }
+};
