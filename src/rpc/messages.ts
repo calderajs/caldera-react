@@ -119,7 +119,7 @@ export type HistoryMessage = {
       method: HistoryMethod.GO;
       delta: number;
     }
-  | { method: HistoryMethod.PUSH | HistoryMethod.REPLACE; path: "" }
+  | { method: HistoryMethod.PUSH | HistoryMethod.REPLACE; path: string }
 );
 
 export interface PongMessage {
