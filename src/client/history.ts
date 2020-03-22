@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history";
-import { EventType, HistoryAction } from "../rpc/messages";
+import { EventType, HistoryAction, HistoryMessage } from "../rpc/messages";
 import { dispatchEvent } from "./index";
 
 const history = createBrowserHistory();
@@ -29,3 +29,5 @@ export const registerHistoryListener = () => {
 };
 
 export const cleanupHistoryListener = () => unsubscribeListener?.();
+
+export const handleHistory = (data: HistoryMessage) => {};

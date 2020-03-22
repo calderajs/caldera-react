@@ -14,7 +14,8 @@ import {
   SetInitialAttrsMessage,
   SetSessionTokenMessage,
   UpdateAttrsMessage,
-  UpdateTextMessage
+  UpdateTextMessage,
+  HistoryMessage
 } from "../generated/rpcMessage.js";
 import {
   CalderaRPCMessage,
@@ -99,6 +100,10 @@ const writeRPCMessage = (pbf: Pbf, data: CalderaRPCMessage) => {
     }
     case MessageType.DELETE_HEAD: {
       pbf.writeMessage(data.msg, DeleteHeadMessage.write, data);
+      break;
+    }
+    case MessageType.HISTORY: {
+      pbf.writeMessage(data.msg, HistoryMessage.write, data);
       break;
     }
     case MessageType.PONG: {

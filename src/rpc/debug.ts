@@ -35,6 +35,9 @@ export const getDebugMessageType = (type: MessageType): string => {
     case MessageType.DISPATCH_EVENT: {
       return "DISPATCH_EVENT";
     }
+    case MessageType.HISTORY: {
+      return "HISTORY";
+    }
     case MessageType.PONG: {
       return "PONG";
     }

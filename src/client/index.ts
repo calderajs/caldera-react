@@ -25,7 +25,11 @@ import {
 import { execDOMEvent } from "./deferDefault";
 import { handleAppendOrUpdateHead, handleDeleteHead, clearHead } from "./head";
 import { applyStylesToNode, withDebugName, sleep } from "./util";
-import { registerHistoryListener, cleanupHistoryListener } from "./history";
+import {
+  registerHistoryListener,
+  cleanupHistoryListener,
+  handleHistory
+} from "./history";
 
 const LATENCY_SIM = 0;
 // TODO: Figure out fluctuation
@@ -184,6 +188,10 @@ const processMessage = (data: CalderaRPCMessage) => {
     }
     case MessageType.DELETE_HEAD: {
       handleDeleteHead(data);
+      break;
+    }
+    case MessageType.HISTORY: {
+      handleHistory(data);
       break;
     }
     case MessageType.SET_INITIAL_ATTRS: {

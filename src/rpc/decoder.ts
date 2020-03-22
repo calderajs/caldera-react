@@ -20,7 +20,8 @@ import {
   ScrollIntoViewMessage,
   AppendOrUpdateHeadMessage,
   DeleteHeadMessage,
-  PongMessage
+  PongMessage,
+  HistoryMessage
 } from "../generated/rpcMessage";
 import {
   SimpleDOMEvent,
@@ -94,6 +95,10 @@ const readRPCMessage = (tag: number, acc?: CalderaRPCMessage[], pbf?: Pbf) => {
     }
     case MessageType.DELETE_HEAD: {
       data = DeleteHeadMessage.read(pbf, end);
+      break;
+    }
+    case MessageType.HISTORY: {
+      data = HistoryMessage.read(pbf, end);
       break;
     }
     case MessageType.PONG: {
