@@ -75,9 +75,10 @@ let requestPingTask: number;
 const processMessage = (data: CalderaRPCMessage) => {
   switch (data.msg) {
     case MessageType.SET_SESSION_TOKEN: {
-      const clearedRoot = rootNode.cloneNode(false);
-      // eslint-disable-next-line no-unused-expressions
-      clearedRoot.parentNode?.replaceChild(clearedRoot, rootNode);
+      while (rootNode.firstChild) {
+        rootNode.removeChild(rootNode.firstChild);
+      }
+
       nodeMap.clear();
       clearHead();
       clearCallbackHandlers();
