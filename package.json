@@ -52,8 +52,8 @@
   },
   "scripts": {
     "build-proto": "pbf src/proto/rpcEvent.proto > src/generated/rpcEvent.js && pbf src/proto/rpcMessage.proto > src/generated/rpcMessage.js",
-    "build": "npm run build-proto && webpack --env.production && tsc --build tsconfig.build-server.json",
-    "watch": "npm run build-proto && concurrently \"webpack --watch\" \"tsc --build tsconfig.build-server.json --watch\"",
+    "build": "npm run build-proto && webpack --mode=production && tsc --build tsconfig.build-server.json",
+    "watch": "npm run build-proto && concurrently \"webpack --mode=development --watch\" \"tsc --build tsconfig.build-server.json --watch\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .ts,.tsx src/"
   },

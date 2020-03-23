@@ -1,8 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const makeConfig = (env = {}) => ({
-  mode: env.production ? "production" : "development",
+module.exports = {
   module: {
     rules: [
       {
@@ -25,6 +24,4 @@ const makeConfig = (env = {}) => ({
       template: "./src/client/index.html"
     })
   ]
-});
-
-module.exports = makeConfig;
+};
