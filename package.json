@@ -1,6 +1,6 @@
 {
   "name": "caldera",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Server side execution for React",
   "main": "dist/server/index.js",
   "types": "dist/server/index.d.ts",
