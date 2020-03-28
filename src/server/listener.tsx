@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import { useForceRender } from "./useForceRender";
 export type ListenerType = string;
-type Listener = (v: any) => void;
+type Listener = () => void;
 
 export interface SharedResource<T> {
   getValue: () => T;
-  addListener: (listener: (value: T) => void) => void;
-  removeListener: (listener: (value: T) => void) => void;
+  addListener: (listener: () => void) => void;
+  removeListener: (listener: () => void) => void;
   updateListeners: (value: T) => void;
 }
 
@@ -18,25 +19,23 @@ export const makeSharedResource = <T,>(initialValue: T): SharedResource<T> => {
     addListener: (listener: Listener) => listeners.add(listener),
     removeListener: (listener: Listener) => listeners.delete(listener),
     updateListeners: (newValue: T) => {
-      currValue = newValue;
-      listeners.forEach(listener => listener(currValue));
+      if (currValue !== newValue) {
+        currValue = newValue;
+        listeners.forEach(listener => listener());
+      }
     }
   };
 };
 
 export const useSharedState = <T,>(resource: SharedResource<T>) => {
-  const [value, setValue] = useState(resource.getValue());
+  const forceRender = useForceRender();
 
   useEffect(() => {
-    setValue(resource.getValue());
-    resource.addListener(setValue);
-    return () => resource.removeListener(setValue);
-  }, [resource]);
+    resource.addListener(forceRender);
+    return () => resource.removeListener(forceRender);
+  }, [forceRender, resource]);
 
-  const updateValue = useCallback((val: T) => resource.updateListeners(val), [
-    resource
-  ]);
-  return [value, updateValue] as const;
+  return [resource.getValue(), resource.updateListeners] as const;
 };
 
 type Reducer<S, A> = (prevState: S, action: A) => S;
