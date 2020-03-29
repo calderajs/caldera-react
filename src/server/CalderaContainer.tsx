@@ -183,10 +183,6 @@ export default class CalderaContainer {
 
             const bubblingEvent = {
               ...event,
-              composedPath: () =>
-                e.composedPath.map(nodeId =>
-                  this.sessionElementRefs.get(nodeId)
-                ),
               _calderaPropagating: true,
               stopPropagation: () => {
                 bubblingEvent._calderaPropagating = false;
