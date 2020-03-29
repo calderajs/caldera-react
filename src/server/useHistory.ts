@@ -13,7 +13,7 @@ export const useLocation = () => {
     return () => {
       listeners.delete(forceRender);
     };
-  });
+  }, [forceRender, listeners]);
 
   return useMemo(() => {
     const searchIdx = path.indexOf("?");
