@@ -133,7 +133,11 @@ export const renderCalderaApp = (
   });
 
   const { port = 8080, hostname } = options;
-  server.listen(port, hostname, () => {
-    console.log(`🌋  Server started on port ${port}`);
+
+  return new Promise<void>(resolve => {
+    server.listen(port, hostname, () => {
+      resolve();
+      console.log(`🌋  Server started on port ${port}`);
+    });
   });
 };
