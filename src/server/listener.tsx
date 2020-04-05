@@ -38,16 +38,17 @@ export const useSharedState = <T,>(resource: SharedResource<T>) => {
   return [resource.getValue(), resource.updateListeners] as const;
 };
 
-type Reducer<S, A> = (prevState: S, action: A) => S;
+type Reducer<S, A> = (prevState: S, action: A) => S | Promise<S>;
 
 export const useSharedReducer = <S, A>(
   dispatch: Reducer<S, A>,
   resource: SharedResource<S>
 ) => {
   const [state, setState] = useSharedState(resource);
+
   return [
     state,
-    useCallback((action: A) => setState(dispatch(state, action)), [
+    useCallback(async (action: A) => setState(await dispatch(state, action)), [
       dispatch,
       setState,
       state
