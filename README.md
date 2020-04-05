@@ -20,10 +20,7 @@ The `caldera` package provides the following top-level exports:
 - `renderCalderaApp`: A function that takes in a React element, and runs the Caldera server on port 8080
 - `makeSharedResource`: Creates a shared resource suitable for use in `useSharedState` and `useSharedReducer`
 - `useSharedState`/`useSharedReducer`: Shared equivalents to the `useState` and `useReducer` hooks that are initialized with the current value of the passed in resource, and trigger rerenders in all other call sites upon updating
-
-## Comparison with Phoenix LiveView
-
-There are some significant advantages of using React for the rendering engine compared to Phoenix LiveView's approach. React's single source of truth paradigm enables serialization and restoration of state across sessions. This means that the complete application state is preserved across server restarts, and eventually across multiple devices (and potentially different application versions). In the future, React's isolated component model (props down, callbacks up) will allow Caldera to seamlessly render certain display-only components (think maps, searchable selects, date pickers) on the client while rendering the rest of the application on the server.
+- `useHistory`/`useLocation` - hooks that enable routing functionality
 
 ## Examples
 
@@ -75,7 +72,7 @@ A few other examples [here](https://github.com/calderajs/caldera-examples) demon
 ## What works <a name="what-works"></a>
 
 - Basic form inputs (text fields/areas, checkboxes, selects, radio buttons)
-- Basic event listeners (onclick/onchange/onsubmit/onfocus/onblur)
+- Basic event listeners (onclick/onchange/onsubmit/onfocus/onblur/keyevents)
 - CSS and other head tags (via `<Head />`)
 - Basic input reconciliation (currently implemented via debounce)
 - Shared state and reducer hooks
@@ -83,9 +80,9 @@ A few other examples [here](https://github.com/calderajs/caldera-examples) demon
 
 ## What's being worked on <a name="whats-being-worked-on"></a>
 
-- More events (onmouseenter/onmouseleave, keyevents, etc)
+- More events (ondragstart, intersection observers)
+- `<input type="file">` support
 - Better, diff-based input reconciliation
-- Routing support (this is a big one)
 
 ## Future plans
 
