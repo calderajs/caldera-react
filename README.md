@@ -8,7 +8,75 @@ Because it's built on top of the React reconciler, it's compatible with (current
 
 ## Installation
 
-Run `npm install caldera` to install Caldera
+Run `npm install caldera` to install Caldera.
+
+## Examples
+
+A simple example (chat room) to get started:
+
+```JSX
+import React, { useState } from "react";
+import { renderCalderaApp, makeSharedResource, useSharedState } from "caldera";
+import fs from "fs";
+
+const DATA_PATH = "messages.json";
+const messagesResource = makeSharedResource(
+  // Load initial messages
+  fs.existsSync(DATA_PATH)
+    ? JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"))
+    : []
+);
+
+const usePersistedMessages = () => {
+  // Basic shared state, synced with all clients
+  const [messages, setMessages] = useSharedState(messagesResource);
+  return [
+    messages,
+    // Persist to disk (in prod, use a database)
+    (newMessages) => {
+      setMessages(newMessages);
+      fs.writeFileSync(DATA_PATH, JSON.stringify(newMessages));
+    },
+  ];
+};
+
+const App = () => {
+  const [messages, setMessages] = usePersistedMessages();
+  // local state, persisted across client reconnects
+  const [draftMsg, setDraftMsg] = useState("");
+
+  return (
+    <>
+      <h1>Chat Room!</h1>
+      {messages.map((message, i) => (
+        <div key={i}>{message}</div>
+      ))}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setMessages([...messages, draftMsg]);
+          setDraftMsg("");
+        }}
+      >
+        <input
+          type="text"
+          value={draftMsg}
+          onChange={(e) => setDraftMsg(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </>
+  );
+};
+
+renderCalderaApp(<App />, { port: 4000 });
+```
+
+Install Babel by running `npm install @babel/core @babel/node @babel/preset-react`.
+
+Then, run the app using `babel-node --presets @babel/preset-react index.jsx`.
+
+A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
 ## API/Documentation
 
@@ -21,53 +89,6 @@ The `caldera` package provides the following top-level exports:
 - `makeSharedResource`: Creates a shared resource suitable for use in `useSharedState` and `useSharedReducer`
 - `useSharedState`/`useSharedReducer`: Shared equivalents to the `useState` and `useReducer` hooks that are initialized with the current value of the passed in resource, and trigger rerenders in all other call sites upon updating
 - `useHistory`/`useLocation` - hooks that enable routing functionality
-
-## Examples
-
-A simple example (chat room) to get started:
-
-```JSX
-import React from "react";
-import { renderCalderaApp, makeSharedResource, useSharedState } from "caldera";
-
-const messagesResource = makeSharedResource([]); // default impl of shared state
-
-const App = () => {
-  // shared resources are shared with all clients
-  const [messages, setMessages] = useSharedState(messagesResource);
-  // local state, preserved across client restarts
-  const [draftMsg, setDraftMsg] = useState("");
-
-  return (
-    <>
-      <h1>Chat Room!</h1>
-      {messages.map((message, i) => (
-        <div key={i}>{message}</div>
-      ))}
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          setMessages(messages => [...messages, draftMsg]);
-          setDraftMsg("");
-        }}
-      >
-        <input
-          type="text"
-          value={draftMessage}
-          onChange={e => setDraftMsg(e.target.value)}
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </>
-  );
-};
-
-renderCalderaApp(<App />);
-```
-
-Then, run the app using `node app.js`.
-
-A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
 ## What works <a name="what-works"></a>
 
