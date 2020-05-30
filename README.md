@@ -74,7 +74,7 @@ renderCalderaApp(<App />, { port: 4000 });
 
 Install Babel by running `npm install @babel/core @babel/node @babel/preset-react`.
 
-Then, run the app using `babel-node --presets @babel/preset-react index.jsx`.
+Then, run the app using `babel-node --presets @babel/preset-react index.jsx`. For a runnable version, check the [basic-example](./basic-example) folder.
 
 A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
