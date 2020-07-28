@@ -2,13 +2,16 @@ import { IncomingMessage, ServerResponse } from "http";
 import path from "path";
 import fs from "fs";
 
-const rootDir = path.resolve(__dirname, "..", "public");
+const calderaRootDir = path.resolve(__dirname, "..", "public");
 
 const serve = (
   req: IncomingMessage,
   res: ServerResponse,
-  onError: (err: any) => void
+  onError: (err: any) => void,
+  options: { rootDir?: string; } = {}
 ) => {
+  let rootDir = (options.rootDir ? options.rootDir : calderaRootDir);
+
   const url = req.url;
 
   let filePath = "index.html";
@@ -16,6 +19,7 @@ const serve = (
 
   if (url === "/caldera-client.js") {
     filePath = url.slice(1);
+    rootDir = calderaRootDir;
     mimeType = "application/javascript";
   }
 

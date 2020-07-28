@@ -30,11 +30,11 @@ export type Dispatch = (
 
 export const renderCalderaApp = (
   app: React.ReactElement,
-  options: { port?: number; hostname?: string } = {}
+  options: { port?: number; hostname?: string; rootDir?: string; } = {}
 ) => {
   const savedStates = new Map<SessionID, Buffer>();
   const server = http.createServer((req, res) =>
-    serve(req, res, finalhandler(req, res))
+    serve(req, res, finalhandler(req, res), options)
   );
   const wss = new WebSocket.Server({
     noServer: true,
