@@ -11,16 +11,21 @@ const serve = (
   options: { rootDir?: string; } = {}
 ) => {
   let rootDir = (options.rootDir ? options.rootDir : calderaRootDir);
-
   const url = req.url;
+  let filePath = url
+  let mimeType = "text/plain";
 
-  let filePath = "index.html";
-  let mimeType = "text/html";
-
-  if (url === "/caldera-client.js") {
-    filePath = url.slice(1);
+  if (url === "/") {
+    filePath = "index.html";
+    mimeType = "text/html";
     rootDir = calderaRootDir;
+  } else if (url === "/caldera-client.js") {
+    filePath = url.slice(1);
     mimeType = "application/javascript";
+    rootDir = calderaRootDir;
+  }
+  if(url.endsWith('.css')) {
+    mimeType = "text/css"
   }
 
   fs.readFile(path.join(rootDir, filePath), (err, buf) => {
