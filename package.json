@@ -11,7 +11,7 @@
     "finalhandler": "^1.1.2",
     "history": "^4.10.1",
     "js-cookie": "^2.2.1",
-    "nanoid": "^2.1.6",
+    "nanoid": "^3.1.31",
     "pbf": "git+https://github.com/mapbox/pbf.git#89ed77309c7c646b809251b811c8c080a05be78a",
     "react": "^16.12.0",
     "react-reconciler": "^0.24.0",
