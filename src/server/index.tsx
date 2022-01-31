@@ -1,7 +1,7 @@
 import cookie from "cookie";
 import finalhandler from "finalhandler";
 import http, { IncomingMessage } from "http";
-import nanoid from "nanoid";
+import { nanoid } from "nanoid";
 import React from "react";
 import { Nominal } from "simplytyped";
 import WebSocket from "ws";
@@ -30,7 +30,7 @@ export type Dispatch = (
 
 export const renderCalderaApp = (
   app: React.ReactElement,
-  options: { port?: number; hostname?: string; rootDir?: string; } = {}
+  options: { port?: number; hostname?: string; rootDir?: string } = {}
 ) => {
   const savedStates = new Map<SessionID, Buffer>();
   const server = http.createServer((req, res) =>
