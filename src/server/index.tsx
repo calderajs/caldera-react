@@ -2,6 +2,7 @@ import cookie from "cookie";
 import finalhandler from "finalhandler";
 import http, { IncomingMessage } from "http";
 import { nanoid } from "nanoid";
+import { Socket } from "net";
 import React from "react";
 import { Nominal } from "simplytyped";
 import WebSocket from "ws";
@@ -127,7 +128,7 @@ export const renderCalderaApp = (
       console.log("Creating new Websocket connection ID:", session);
     }
 
-    wss.handleUpgrade(request, socket, head, ws => {
+    wss.handleUpgrade(request, socket as Socket, head, ws => {
       wss.emit("connection", ws, session, initialPath, savedState);
     });
   });

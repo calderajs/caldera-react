@@ -78,6 +78,7 @@ export const createRenderer = (dispatcher: Dispatcher) => {
     any,
     any,
     any,
+    any,
     string[],
     any,
     any,
@@ -359,7 +360,9 @@ export const createRenderer = (dispatcher: Dispatcher) => {
       return inst;
     },
     getRootHostContext() {},
-    prepareForCommit(container) {},
+    prepareForCommit(container): Record<string, any> | null {
+      return null;
+    },
     resetAfterCommit(container) {
       dispatcher.requestFlush(container);
     },
