@@ -1,5 +1,5 @@
 {
-  "name": "caldera",
+  "name": "react-native-remote-web",
   "version": "0.0.9",
   "description": "Server side execution for React",
   "main": "dist/server/index.js",
