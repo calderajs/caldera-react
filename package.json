@@ -1,6 +1,6 @@
 {
   "name": "react-native-remote-web",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Server side execution for React",
   "main": "dist/server/index.js",
   "types": "dist/server/index.d.ts",
