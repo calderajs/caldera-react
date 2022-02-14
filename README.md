@@ -78,6 +78,11 @@ Then, run the app using `babel-node --presets @babel/preset-react index.jsx`. Fo
 
 A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
+## Possible Usage
+
+1. GUI for linux server utility application driven by zx https://github.com/google/zx
+2. GUI for some web helper system driven by https://github.com/puppeteer/puppeteer
+
 ## API/Documentation
 
 **[Work in progress]**
