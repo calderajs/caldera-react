@@ -115,3 +115,15 @@ The `caldera` package provides the following top-level exports:
 - Proper versioning for state serialization
   - This will allow support for upgrading the server in-place, while retaining certain parts of the client state
 - Support for selectively rendering arbitrary React components on the client
+
+# Development flow
+
+## package publishing
+
+```bash
+npm run build
+npm version minor # major | minor | patch
+npm publish
+git push
+git push --tags
+```
