@@ -10,9 +10,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.10.1",
-    "@babel/node": "^7.10.1",
-    "@babel/preset-react": "^7.10.1",
-    "caldera": "0.0.8"
+    "@babel/core": "latest",
+    "@babel/node": "latest",
+    "@babel/preset-react": "latest",
+    "react-native-remote-web": "latest"
   }
 }
