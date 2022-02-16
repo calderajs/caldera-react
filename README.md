@@ -6,6 +6,11 @@ This allows developers to rapidly build interactive and multiplayer applications
 
 Because it's built on top of the React reconciler, it's compatible with (currently, a reasonably useful subset of) the existing React API. See [what's currently included](#what-works) and [what's to come](#whats-being-worked-on) for updates.
 
+
+## Screenshot
+
+https://user-images.githubusercontent.com/13283869/153917842-a286add1-a141-4f39-81c3-76aa22ba4d34.mp4
+
 ## Installation
 
 Run `npm install caldera` to install Caldera.
@@ -78,6 +83,11 @@ Then, run the app using `babel-node --presets @babel/preset-react index.jsx`. Fo
 
 A few other examples [here](https://github.com/calderajs/caldera-examples) demonstrate features like shared state, database usage, and session persistence.
 
+## Possible Usage
+
+1. GUI for linux server utility application driven by zx https://github.com/google/zx
+2. GUI for some web helper system driven by https://github.com/puppeteer/puppeteer
+
 ## API/Documentation
 
 **[Work in progress]**
@@ -110,3 +120,22 @@ The `caldera` package provides the following top-level exports:
 - Proper versioning for state serialization
   - This will allow support for upgrading the server in-place, while retaining certain parts of the client state
 - Support for selectively rendering arbitrary React components on the client
+
+# Development flow
+
+## package publishing
+
+```bash
+npm run build
+npm version minor # major | minor | patch
+npm publish
+git push
+git push --tags
+```
+
+# Sample apps
+
+1. [basic-example](./examples/basic-example) 
+2. [electron-example](./examples/electron-example)
+3. [zx-example](./examples/zx-example)(wip)
+4. [puppeteer-example](./examples/puppeteer-example)(wip)

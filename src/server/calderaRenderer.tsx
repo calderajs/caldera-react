@@ -78,6 +78,7 @@ export const createRenderer = (dispatcher: Dispatcher) => {
     any,
     any,
     any,
+    any,
     string[],
     any,
     any,
@@ -138,6 +139,7 @@ export const createRenderer = (dispatcher: Dispatcher) => {
       };
       dispatcher.dispatch(textInstance._calderaSessionId, msg);
     },
+    clearContainer(container) {},
     // to root container
     appendChildToContainer(container, child) {
       const sessionId = container;
@@ -354,12 +356,14 @@ export const createRenderer = (dispatcher: Dispatcher) => {
       // TODO: Handle focus/assign refs
       return false;
     },
-    getChildHostContext() {},
+    getChildHostContext() { },
     getPublicInstance(inst) {
       return inst;
     },
-    getRootHostContext() {},
-    prepareForCommit(container) {},
+    getRootHostContext() { },
+    prepareForCommit(container): Record<string, any> | null {
+      return null;
+    },
     resetAfterCommit(container) {
       dispatcher.requestFlush(container);
     },

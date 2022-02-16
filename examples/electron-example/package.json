@@ -1,0 +1,31 @@
+{
+  "name": "caldera-basic-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "electron build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "latest",
+    "@babel/node": "latest",
+    "@babel/preset-react": "latest",
+    "react-native-remote-web": "latest",
+    "tslib": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.14",
+    "@types/pg": "^8.6.4",
+    "@types/randomcolor": "^0.5.6",
+    "@types/react": "^17.0.38",
+    "electron": "^17.0.0",
+    "simplytyped": "^3.3.0",
+    "typescript": "^4.5.5",
+    "typings-for-css-modules-loader": "^1.7.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "importHelpers": true,
+    "target": "es2021",
+    "module": "commonjs",
+    "lib": [
+      "es2021",
+      "DOM"
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "allowJs": true,
+    "outDir": "build",
+    "plugins": [
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}

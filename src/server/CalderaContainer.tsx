@@ -46,6 +46,7 @@ export default class CalderaContainer {
     unknown,
     unknown,
     unknown,
+    unknown,
     unknown
   >;
   readonly dispatcher: Dispatcher;
@@ -56,7 +57,13 @@ export default class CalderaContainer {
   constructor(
     sessionId: SessionID,
     elementRefs: Map<SessionID, Map<NodeID, CalderaElement>>,
-    reconciler: ReactReconciler.Reconciler<unknown, unknown, unknown, unknown>,
+    reconciler: ReactReconciler.Reconciler<
+      unknown,
+      unknown,
+      unknown,
+      unknown,
+      unknown
+    >,
     dispatcher: Dispatcher,
     initialPath: string,
     savedState: any[] | undefined,
@@ -74,7 +81,7 @@ export default class CalderaContainer {
     const sessionElementRefs = new Map<NodeID, CalderaElement>();
     elementRefs.set(sessionId, sessionElementRefs);
     this.sessionElementRefs = sessionElementRefs;
-    this.container = reconciler.createContainer(sessionId, false, false);
+    this.container = reconciler.createContainer(sessionId, 0, false, null);
 
     const initialContext = {
       dispatch: (msg: CalderaRPCMessage) =>
